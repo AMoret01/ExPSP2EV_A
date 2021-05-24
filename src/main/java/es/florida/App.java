@@ -1,7 +1,7 @@
 package es.florida;
 
 import java.io.*;
-import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 
@@ -13,11 +13,12 @@ public class App {
 
         DronController controller = new DronController();
 
-        Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(PORT));
-        InputStream inputStream = socket.getInputStream();
-        OutputStream outputStream = socket.getOutputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        ServerSocket server = new ServerSocket(PORT);
+        Socket connection = server.accept();
+        InputStream input = connection.getInputStream();
+        OutputStream output = connection.getOutputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        PrintWriter printer = new PrintWriter(new OutputStreamWriter(output));
         controller.takeOff();
         esperar(1);
         controller.land();
@@ -26,18 +27,12 @@ public class App {
         esperar(1);
         controller.fireSecondaryWeapon();
         controller.shutDown();
-        //String line;
+        String line;
 
-        //while ((line = reader.readLine()) != null) {
-           // controller.takeOff();
-           // esperar(1);
-           // controller.land();
-            //esperar(1);
-            //controller.firePrimaryCannon();
-            //esperar(1);
-            //controller.fireSecondaryWeapon();
-            //controller.shutDown();
-        //};
+        while ((line = reader.readLine()) != null) {
+           System.out.println(line);
+        }
+        printer.println("Bienvenido...");
     }
 
     public static void esperar(int segundos){
