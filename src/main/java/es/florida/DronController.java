@@ -1,47 +1,42 @@
 package es.florida;
 
-
-import javax.sound.sampled.Port;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.Socket;
+
 public class DronController {
 
-    public static final int PORT = 9876;
-    private PrintWriter _printer = null;
+
+    static final int PORT = 9876 ;
+
     public Socket connect() throws IOException {
-        Socket socket = new Socket();
-        socket.connect(new InetSocketAddress("localhost", PORT));
 
-        OutputStream output = socket.getOutputStream();
-        _printer = new PrintWriter(new OutputStreamWriter(output));
-        return socket;
+        return new Socket("localhost", PORT);
     }
-
-    public void takeOff() {
+    //Si quiero que un comando se encripte tengo que poner true en el encrypt:
+    public void takeOff() throws IOException, InterruptedException {
         System.out.println("Taking off...");
-        _printer.println("TAKE-OFF");
+        App.enviarComandos("TAKE-OFF", true, true);
     }
 
-    public void land() {
+    public void land() throws IOException, InterruptedException {
         System.out.println("Landing");
-        _printer.println("LAND");
+        App.enviarComandos("LAND", true, true);
     }
 
-    public void firePrimaryCannon() {
+    public void firePrimaryCannon() throws IOException, InterruptedException {
         System.out.println("Ratatatatatatata!");
-        _printer.println("FIRE_P_W");
+        App.enviarComandos("FIRE_P_W", true, true);
     }
 
-    public void fireSecondaryWeapon() {
+    public void fireSecondaryWeapon() throws IOException, InterruptedException {
         System.out.println("Piñau! Piñau!");
-        _printer.println("FIRE_S_W");
+        App.enviarComandos("FIRE_S_W", true, true);
     }
 
-    public void shutDown() {
+    public void shutDown() throws IOException, InterruptedException {
         System.out.println("Shutting down system...");
-        _printer.println("OFF");
+        App.enviarComandos("OFF", true, true);
     }
 
 }

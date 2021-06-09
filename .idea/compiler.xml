@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EXDronControllerA" />
+        <module name="ExPSP2EV_A" />
       </profile>
     </annotationProcessing>
   </component>
